@@ -6,20 +6,20 @@ module.exports = {
     user = new User(req.body);
     user.save((err) => {
       if(err) {
-        console.log("ERROR");
-        res.send(err)
+        console.log(err);
       } else {
         console.log("SUCCESS");
         res.send(user);
       }
     })
   },
-  index: (request, response) => {
-    User.find({}, function(err, users){
+  getUser: (req, res) => {
+    User.find({username:req.body.username, password: req.body.password}, function(err, user){
       if(err) {
-        response.send(err);
+        console.log(err);
       } else {
-        response.send(users);
+        console.log("Got user")
+        res.send(user);
       }
     })
       
@@ -28,7 +28,7 @@ module.exports = {
     console.log("DELETE "+req.params.id);
     User.remove({_id: req.params.id}, function(err){
       if(err) {
-        res.send("Error "+err)
+        console.log(err);
       }
       else {
         res.send({"status":"success"})
@@ -38,7 +38,7 @@ module.exports = {
   update: (req, res) => {
     User.update({_id: req.body._id }, req.body, function() {
       if(err) {
-        res.send("ERROR "+err);
+        console.log(err);
       }
       else {
         res.send("USER UPDATED");
